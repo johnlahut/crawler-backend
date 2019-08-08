@@ -1,0 +1,4 @@
+*pyc
+*idea/
+venv/
+backend/db.sqlite3
