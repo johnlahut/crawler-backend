@@ -32,7 +32,7 @@ class StartJobView(views.APIView):
             }
 
             # schedule job, update job model with scrapy_id
-            task_id = scrapyd.schedule('default', 'tester', settings=settings, url=url, domain=domain)
+            task_id = scrapyd.schedule('default', 'orgspider', settings=settings, url=url, domain=domain)
             Job.objects.filter(id=id).update(task_id=task_id)
 
             # re-serialize; needed to update job with scrapy_id
