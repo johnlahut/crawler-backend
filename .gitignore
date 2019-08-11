@@ -2,3 +2,5 @@
 *idea/
 venv/
 backend/db.sqlite3
+*.log
+*.db

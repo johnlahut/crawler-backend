@@ -1,3 +1,4 @@
+import uuid
 from rest_framework import serializers
 from .models import Organization, Job
 
@@ -9,9 +10,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 class JobSerializer(serializers.ModelSerializer):
 
-    # map incoming 'id' JSON key to its correct client_id field
-    id = serializers.UUIDField(source='client_id')
-
     class Meta:
         model = Job
         fields = '__all__'
@@ -19,10 +17,9 @@ class JobSerializer(serializers.ModelSerializer):
 
     def create(self, valid_data):
 
-        # call crawler processor here
-
+        # create shell of a job, let downstream processes update it
         return  Job.objects.create(
             url=valid_data.get('url'),
             client_id=valid_data.get('client_id'),
-            status='in_progress'
+            status=Job.NOT_STARTED,
         )

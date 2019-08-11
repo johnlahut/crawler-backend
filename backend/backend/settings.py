@@ -134,3 +134,5 @@ STATIC_URL = '/static/'
 # CORS protection -> change for production
 CORS_ORIGIN_ALLOW_ALL = True
 
+SCRAPYD_API = 'http://localhost:6800'
+

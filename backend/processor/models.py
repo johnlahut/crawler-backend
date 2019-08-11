@@ -23,7 +23,8 @@ class Job(models.Model):
 
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    client_id = models.UUIDField(default=uuid.uuid4(), editable=False, unique=True)
+    client_id = models.UUIDField(default=uuid.uuid4(), unique=True)
+    task_id = models.UUIDField(null=True, unique=True)
     created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUSES, default=NOT_STARTED)
     url = models.CharField(max_length=255)
