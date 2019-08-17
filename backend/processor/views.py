@@ -1,3 +1,4 @@
+from crawler.crawler.spiders import utils
 from urllib.parse import urlparse
 
 from scrapyd_api import ScrapydAPI
@@ -5,7 +6,7 @@ from django.conf import settings
 from rest_framework import views, status, viewsets
 from rest_framework.response import Response
 
-from .serializers import JobSerializer
+from .serializers import JobSerializer, CrawledDataSerializer
 from .models import Job
 
 scrapyd = ScrapydAPI(settings.SCRAPYD_API)
@@ -22,7 +23,7 @@ class StartJobView(views.APIView):
             # create job entry
             serializer.save()
             id = serializer.data.get('id')
-            url = serializer.data.get('url')
+            url = utils.clean_url(serializer.data.get('url'))
             domain = urlparse(url).netloc
 
 
@@ -46,6 +47,15 @@ class StatusView(viewsets.ReadOnlyModelViewSet):
 
     serializer_class = JobSerializer
     lookup_field = 'client_id'
+    lookup_url_kwarg = 'ids'
+
+    def get_queryset(self):
+        return Job.objects.filter(client_id__in=self.request.data.get('ids'))
+
+class GetCrawledDataView(viewsets.ReadOnlyModelViewSet):
+
+    serializer_class = CrawledDataSerializer
+    lookup_field = 'crawled_data'
     lookup_url_kwarg = 'ids'
 
     def get_queryset(self):

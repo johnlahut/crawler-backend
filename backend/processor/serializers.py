@@ -23,3 +23,10 @@ class JobSerializer(serializers.ModelSerializer):
             client_id=valid_data.get('client_id'),
             status=Job.NOT_STARTED,
         )
+
+class CrawledDataSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Job
+        fields = ['crawled_data']
+        read_only_fields = ('crawled_data',)

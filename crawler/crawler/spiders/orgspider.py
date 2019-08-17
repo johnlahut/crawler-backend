@@ -13,8 +13,8 @@ class OrgSpider(CrawlSpider):
 
         self.url = kwargs.get('url')
         self.domain = kwargs.get('domain')
-        self.start_urls =  ['https://www.unitedwaygcr.org']# [self.url]
-        self.allowed_domains = ['www.unitedwaygcr.org']# [self.domain]
+        self.start_urls = [self.url] # ['https://www.unitedwaygcr.org']
+        self.allowed_domains = [self.domain] # ['www.unitedwaygcr.org']
 
 
         OrgSpider.rules = [

@@ -1,4 +1,5 @@
 from django.db import models
+from jsonfield import JSONField
 
 import uuid
 
@@ -28,6 +29,7 @@ class Job(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUSES, default=NOT_STARTED)
     url = models.CharField(max_length=255)
+    crawled_data = JSONField(null=True)
 
     def __str__(self):
         return f'{self.id} {self.url}'

@@ -21,8 +21,6 @@ class ScraperPipeline(object):
         self.keywords = utils.get_kws('crawler/spiders/run/partner_kw.txt')
         self.stop_words = utils.get_kws('crawler/spiders/run/stop_kw.txt')
 
-        print(self.stop_words)
-
 
     # here we init the pipeline with class args from the settings from the django view
     @classmethod
@@ -31,16 +29,14 @@ class ScraperPipeline(object):
             id=crawler.settings.get('id')
         )
 
-    # set status to in_progress, send message to front-end
+    # set status to in_progress
     def open_spider(self, spider):
-        print(f'opening spider with id {self.id}')
         self.job.status = self.job.IN_PROGRESS
         self.job.save()
 
-    # set status to complete, send message to front-end
+    # determine completion status, persist data
     def close_spider(self, spider):
-        print('closing spider!')
-        self.job.url = json.dumps(self.items)
+        self.job.crawled_data = json.dumps(self.items)
 
         if (self.items):
             self.job.status = self.job.COMPLETE
@@ -48,7 +44,7 @@ class ScraperPipeline(object):
             self.job.status = self.job.WARNING
         self.job.save()
 
-    # here we do the "heavy-lifting" processing
+    # here we do the "heavy-lifting" processing on crawled link
     def process_item(self, item, spider):
 
         response_url = item['url']                      # base URL
