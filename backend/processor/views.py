@@ -1,6 +1,6 @@
-from crawler.crawler.spiders import utils
+# from crawler.crawler.spiders import utils
+from crawler.spiders import utils
 from urllib.parse import urlparse
-
 from scrapyd_api import ScrapydAPI
 from django.conf import settings
 from rest_framework import views, status, viewsets
